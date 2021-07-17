@@ -10,7 +10,7 @@ import Link from 'next/link';
 
 const Cart = () => {
 
-  const { products, deleteProduct, emptyCart }: any = useProducts();
+  const { products, deleteProduct, emptyCart, updateQty }: any = useProducts();
 
   const handleDelete = (id: number) => {
     swal({
@@ -32,8 +32,6 @@ const Cart = () => {
         }
       });
   }
-
-
 
   const handleFinalize = () => {
     swal({
@@ -77,6 +75,32 @@ const Cart = () => {
       });
   }
 
+  const onChangeValue = (e, product) => {
+    const value = e.target.value
+    if (value < 1) {
+      swal({
+        title: "Estas seguro de eliminar este producto?",
+        icon: "warning",
+        buttons: ["Cancelar", "Eliminar"],
+        dangerMode: true,
+      })
+        .then((response) => {
+          if (response) {
+            deleteProduct(product.id)
+            swal("!Producto eliminado con exito!", {
+              icon: "success",
+              buttons: [false],
+              timer: 2000
+            });
+          } else {
+            swal.close();
+          }
+        });
+    } else {
+      updateQty(product, value)
+    }
+  }
+
   return (
     <div className="container p-5 my-5 shadow-2xl">
       <div className="flex ">
@@ -111,8 +135,9 @@ const Cart = () => {
                         <span>eliminar producto</span>
                       </button>
                     </td>
-                    <td className="m-20 text-center border-b">
-                      {product.qty}
+                    <td className="justify-center m-20 text-center border-b">
+                      <input onChange={(e) => onChangeValue(e, product)} type="number" defaultValue={product.qty} min="0"
+                        className="w-20 py-1 font-semibold text-center text-gray-700 bg-blue-200 rounded outline-none focus:outline-none hover:text-black focus:text-black" />
                     </td>
                     <td className="text-center border-b">
                       {product.price}

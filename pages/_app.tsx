@@ -1,3 +1,4 @@
+import Header from "../components/Header"
 import { ProductsProvider } from "../Context/ProductsContext"
 
 
@@ -5,7 +6,10 @@ function App({ Component, pageProps }) {
 
   return (
     <ProductsProvider>
-      <Component {...pageProps} />
+      <>
+        <Header />
+        <Component {...pageProps} />
+      </>
     </ProductsProvider>
   )
 

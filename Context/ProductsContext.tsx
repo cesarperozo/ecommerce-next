@@ -13,7 +13,6 @@ interface ProductsContextProps {
 export function ProductsProvider({ children }: ProductsContextProps) {
   const [products, setProducts] = useLocalStorage('products', []);
 
-
   const addProduct = (newProduct: Product) => {
     let product = products.find((product) => product.id === newProduct.id);
     let productsToAdd = []
@@ -39,19 +38,24 @@ export function ProductsProvider({ children }: ProductsContextProps) {
   const emptyCart = () => {
     setProducts([])
   }
+  const updateQty = (product: Product, value: number) => {
+    let productQty = []
+    product['qty'] = Number(value);
+    productQty = [...products];
+    setProducts(productQty);
+  }
 
   const value = useMemo(() => ({
     addProduct,
     products,
     deleteProduct,
     emptyCart,
+    updateQty
   }),
     [products]
   );
 
-  const totalCartPrice = () => {
 
-  }
 
 
   return (

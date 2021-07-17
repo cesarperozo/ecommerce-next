@@ -32,7 +32,8 @@ const Header = () => {
             <a className="flex items-center justify-between p-4 space-x-2 md:inline-flex hover:bg-gray-50">
               <span className="relative inline-block">
                 <ShoppingCartIcon className="w-8 h-8 text-gray-500" />
-                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">{products.length}</span>
+                {products.length !== 0 && (<span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">{products.length}</span>
+                )}
               </span>
             </a>
           </Link>
