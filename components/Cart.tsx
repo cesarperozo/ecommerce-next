@@ -102,63 +102,51 @@ const Cart = () => {
   }
 
   return (
-    <div className="container p-5 my-5 shadow-2xl">
-      <div className="flex ">
-        <div className="w-full p-4 m-2">
-          <div>
-            <h1 className="text-blue-500 uppercase">Carrito ({products.length})</h1>
-          </div>
+    <div className="container p-5 shadow-2xl sm:my-5">
+      <div className="flex flex-col ">
+        <div className="w-full sm:p-4 sm:m-2">
+          <h1 className="text-blue-500 uppercase">Carrito ({products.length})</h1>
           <hr className="mt-2 mb-5" />
           {products.length ? <>
             <table className="w-full table-fixed Border-b">
               <thead className="divide-gray-300">
                 <tr className="uppercase ">
-                  <th className="w-1/12 "></th>
-                  <th className="w-1/2 text-left">Producto</th>
-                  <th className="w-1/6 ">Cantidad</th>
-                  <th className="w-1/6 ">Precio unitario</th>
-                  <th className="w-1/6 ">Total price</th>
+                  <th className="hidden text-center sm:w-1/12 sm:inline"></th>
+                  <th className="w-1/2 text-sm text-left sm:text-base ">Producto</th>
+                  <th className="text-sm text-left text-center sm:text-base">Cantidad</th>
+                  <th className="invisible text-sm text-left text-center sm:text-base sm:visible" >Precio</th>
+                  <th className="text-sm text-left text-center sm:text-base">Total</th>
                 </tr>
               </thead>
               <tbody>
                 {products.map((product) => (
-                  <tr key={product.id} className="p-8">
-                    <td className="p-5">
+                  <tr key={product.id}>
+                    <td className="hidden p-5 sm:inline">
                       <a href="#">
                         <img src={product.cover} className="w-20 rounded" alt="Thumbnail" />
                       </a>
                     </td>
-                    <td className="border-b">
-                      <p className="w-3/4 sm:truncate" title={product.name}>{product.name}</p>
+                    <td className="text-sm text-left sm:border-b sm:text-base">
+                      <p className="w-3/4 sm:truncate " title={product.name}>{product.name}</p>
                       <button onClick={() => handleDelete(product.id)} className="inline-flex items-center my-1 font-bold text-red-800 rounded">
-                        <TrashIcon className="w-4 h-4 mr-2" />
-                        <span>eliminar producto</span>
+                        <TrashIcon className="hidden w-4 h-4 mr-2 sm:inline" />
+                        <span className="text-start">eliminar producto</span>
                       </button>
                     </td>
-                    <td className="justify-center m-20 text-center border-b">
+                    <td className="m-20 text-sm text-left text-center sm:border-b sm:text-base">
                       <input onChange={(e) => onChangeValue(e, product)} type="number" defaultValue={product.qty} min="0"
                         className="w-20 py-1 font-semibold text-center text-gray-700 bg-blue-200 rounded outline-none focus:outline-none hover:text-black focus:text-black" />
                     </td>
-                    <td className="text-center border-b">
+                    <td className="invisible text-sm text-left text-center sm:border-b sm:text-base sm:visible">
                       {product.price}
                     </td>
-                    <td className="text-center border-b">
+                    <td className="text-sm text-left text-center sm:border-b sm:text-base" >
                       {(Number(product.price) * product.qty).toFixed(2)}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <div className="flex justify-end mt-9">
-              <button onClick={() => handleEmpty()} className="inline-flex items-center px-12 py-2 font-bold text-white bg-red-500 rounded ml-7 hover:bg-red-700">
-                <TrashIcon className="w-5 h-5 mr-2" />
-                <span>Vaciar carrito</span>
-              </button>
-              <button onClick={() => handleFinalize()} className="inline-flex items-center px-12 py-2 font-bold text-white bg-blue-500 rounded ml-7 hover:bg-blue-700">
-                <CreditCardIcon className="w-5 h-5 mr-2 " />
-                <span>Finalizar compra</span>
-              </button>
-            </div>
           </>
             : <div className="text-center text-gray-600">
               <p className="w-full mt-8 text-2xl">Tu carrito está vacío</p>
@@ -166,11 +154,25 @@ const Cart = () => {
             </div>
           }
         </div>
+        <div className="flex flex-col justify-end mt-9 sm:flex-row">
+          <button disabled={!products.length} onClick={() => handleEmpty()} className="inline-flex items-center justify-center px-12 py-2 font-bold text-white bg-red-500 rounded sm:ml-7 hover:bg-red-700">
+            <TrashIcon className="w-5 h-5 mr-2" />
+            <span>Vaciar carrito</span>
+          </button>
+          <button disabled={!products.length} onClick={() => handleFinalize()} className="inline-flex items-center justify-center px-12 py-2 mt-5 font-bold text-white bg-blue-500 rounded sm:m-0 sm:ml-7 hover:bg-blue-700 sm:m0">
+            <CreditCardIcon className="w-5 h-5 mr-2 " />
+            <span>Finalizar compra</span>
+          </button>
+        </div>
       </div>
-
     </div >
   )
 };
-
 export default Cart;
+
+
+
+
+
+
 
