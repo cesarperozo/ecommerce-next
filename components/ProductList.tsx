@@ -1,31 +1,24 @@
-import "tailwindcss/tailwind.css";
-import 'react-toastify/dist/ReactToastify.css';
-import { useProducts } from "../Context/ProductsContext";
-import GetProducts from "../services/GetProducts";
-import { useState, useEffect } from "react";
-import ProductCard from "./ProductCard";
-import { ToastContainer, toast } from 'react-toastify';
-
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import { useProducts } from '../context/ProductsContext';
+import getProducts from '../services/productService';
+import ProductCard from './ProductCard';
 
 const ProductList = () => {
-  const [products, setProductsList] = useState([]);
+  const [products, setProducts] = useState([]);
   const { addProduct }: any = useProducts();
 
   const handleAddProduct = (product) => {
     addProduct(product);
-    toast(<h1 className="max-w-xs text-lg font-bold text-center text-gray-500 truncate title">Agregado al carrito 🛒</h1>), {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    }
+    toast(
+      <p className="max-w-xs text-lg font-bold text-center text-gray-500 truncate title">
+        Agregado al carrito 🛒
+      </p>
+    );
   };
 
   useEffect(() => {
-    GetProducts().then((products) => setProductsList(products));
+    getProducts().then((products) => setProducts(products));
   }, []);
 
   return (
@@ -37,15 +30,6 @@ const ProductList = () => {
         {products.map((product) => (
           <ProductCard product={product} handleAddProduct={handleAddProduct} />
         ))}
-        <ToastContainer position="bottom-right"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover />
       </div>
     </div>
   );

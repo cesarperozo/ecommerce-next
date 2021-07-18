@@ -5,14 +5,12 @@ module.exports = {
     extend: {},
     container: {
       center: true,
-    }
+    },
   },
   variants: {
     extend: {
       translate: ['motion-safe'],
     },
   },
-  plugins: [
-    require('@tailwindcss/line-clamp')
-  ],
-}
+  plugins: [],
+};

@@ -1,21 +1,21 @@
-import React, { useMemo, useState } from "react";
-import { useLocalStorage } from "../hooks/useLocalStorage";
-import { Product } from "../models";
+import React, { useMemo, useState } from 'react';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+import { Product } from '../models';
 
 const ProductsContext = React.createContext({
   products: [],
 });
 
-interface ProductsContextProps {
+type ProductsContextProps = {
   children: JSX.Element;
-}
+};
 
 export function ProductsProvider({ children }: ProductsContextProps) {
   const [products, setProducts] = useLocalStorage('products', []);
 
   const addProduct = (newProduct: Product) => {
     let product = products.find((product) => product.id === newProduct.id);
-    let productsToAdd = []
+    let productsToAdd = [];
     if (product) {
       product.qty = product.qty + 1;
       productsToAdd = [...products];
@@ -24,45 +24,42 @@ export function ProductsProvider({ children }: ProductsContextProps) {
         ...newProduct,
         qty: 1,
       };
-      productsToAdd = [...products, product]
+      productsToAdd = [...products, product];
     }
     setProducts(productsToAdd);
   };
 
   const deleteProduct = (id: number) => {
-    const productDelete = products.filter((product) => product.id !== id)
-    setProducts(productDelete)
-  }
+    const productDelete = products.filter((product) => product.id !== id);
+    setProducts(productDelete);
+  };
 
   const emptyCart = () => {
-    setProducts([])
-  }
+    setProducts([]);
+  };
   const updateQty = (id: string, qty: number) => {
     const newProducts = products.map((product: Product) => {
       if (product.id === id) {
         return {
           ...product,
-          qty
-        }
+          qty,
+        };
       }
-      return product
-    })
-    setProducts(newProducts)
-  }
+      return product;
+    });
+    setProducts(newProducts);
+  };
 
-
-  const value = useMemo(() => ({
-    addProduct,
-    products,
-    deleteProduct,
-    emptyCart,
-    updateQty,
-  }),
+  const value = useMemo(
+    () => ({
+      addProduct,
+      products,
+      deleteProduct,
+      emptyCart,
+      updateQty,
+    }),
     [products]
   );
-
-
-
 
   return (
     <ProductsContext.Provider value={value}>
@@ -75,7 +72,7 @@ export function useProducts() {
   const context = React.useContext(ProductsContext);
   if (!context) {
     throw new Error(
-      "useProducts debe estar dentro del proveedor UsuarioContext"
+      'useProducts debe estar dentro del proveedor UsuarioContext'
     );
   }
   return context;

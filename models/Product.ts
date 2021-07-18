@@ -3,5 +3,5 @@ export interface Product {
   price: string;
   cover: string;
   id: string;
-  qty: number
+  qty: number;
 }
