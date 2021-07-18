@@ -26,7 +26,6 @@ export function ProductsProvider({ children }: ProductsContextProps) {
       };
       productsToAdd = [...products, product]
     }
-
     setProducts(productsToAdd);
   };
 
@@ -38,19 +37,26 @@ export function ProductsProvider({ children }: ProductsContextProps) {
   const emptyCart = () => {
     setProducts([])
   }
-  const updateQty = (product: Product, value: number) => {
-    let productQty = []
-    product['qty'] = Number(value);
-    productQty = [...products];
-    setProducts(productQty);
+  const updateQty = (id: string, qty: number) => {
+    const newProducts = products.map((product: Product) => {
+      if (product.id === id) {
+        return {
+          ...product,
+          qty
+        }
+      }
+      return product
+    })
+    setProducts(newProducts)
   }
+
 
   const value = useMemo(() => ({
     addProduct,
     products,
     deleteProduct,
     emptyCart,
-    updateQty
+    updateQty,
   }),
     [products]
   );
